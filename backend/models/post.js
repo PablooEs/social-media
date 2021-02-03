@@ -6,7 +6,7 @@ var PostSchema = new Schema(
   {
     user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     content: {type: String, required: true, maxlength: 600},
-    date_of_post: {type: Date,required: true},
+    date_of_post: {type: Date,default:Date.now,required: true},
   }
 );
 
