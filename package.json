@@ -1,0 +1,25 @@
+{
+  "name": "social-media",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "npm start --prefix frontend",
+    "server": "npm start --prefix backend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PablooEs/social-media.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PablooEs/social-media/issues"
+  },
+  "homepage": "https://github.com/PablooEs/social-media#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
