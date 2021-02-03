@@ -1,6 +1,5 @@
 var User = require('../models/user');
 var Post = require('../models/post');
-const { post } = require('../routes');
 
 exports.index = async(req, res, next) => {
   try{

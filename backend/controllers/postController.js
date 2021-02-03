@@ -28,6 +28,16 @@ exports.post_create_post = async(req, res)=>{
     const savedPost = await post.save();
     res.json(savedPost);
   }catch(err){
-    res.jdon({ERROR: err})
+    res.json({ERROR: err})
+  }
+};
+
+//Delete post
+exports.post_delete = async(req,res)=>{
+  try{
+    const removedPost = await Post.findByIdAndRemove({_id: req.params.id});
+    res.json({Removed_post: removedPost});
+  }catch(err){
+    res.json({ERROR:err});
   }
 };
