@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MDBContainer,
   MDBRow,
@@ -8,22 +8,17 @@ import {
   MDBCardText,
 } from "mdbreact";
 import Navbar from "./layout/navbar";
-import { getPosts } from "../adapters/posts_adapter";
-import { useDispatch, useSelector } from "react-redux";
 const axios = require("axios");
 
 function Home() {
   const [posts, setPosts] = useState([]);
-  axios
-    .get("http://localhost:4000/posts")
-    .then(function (response) {
+  useEffect(() => {
+    async function getPosts() {
+      let response = await axios.get("http://localhost:4000/posts");
       setPosts(response.data.posts);
-      console.log(posts);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
+    }
+    getPosts();
+  }, []);
   if (posts) {
     return (
       <>
@@ -32,15 +27,16 @@ function Home() {
           <MDBRow>
             <MDBCol md="3"></MDBCol>
             <MDBCol md="9">
-              {posts.map((post) => {
+              {posts.map((post) => (
                 <MDBCard
                   className="card-body"
                   style={{ width: "35rem", marginTop: "1rem" }}
+                  key={post._id}
                 >
                   <MDBCardTitle>{post.user.username}</MDBCardTitle>
                   <MDBCardText>{post.content}</MDBCardText>
-                </MDBCard>;
-              })}
+                </MDBCard>
+              ))}
             </MDBCol>
           </MDBRow>
         </MDBContainer>
