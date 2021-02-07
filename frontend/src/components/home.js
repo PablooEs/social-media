@@ -10,17 +10,21 @@ import {
 import Navbar from "./layout/navbar";
 import { getPosts } from "../adapters/posts_adapter";
 import { useDispatch, useSelector } from "react-redux";
+const axios = require("axios");
 
 function Home() {
   const [posts, setPosts] = useState([]);
+  axios
+    .get("http://localhost:4000/posts")
+    .then(function (response) {
+      setPosts(response.data.posts);
+      console.log(posts);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
-  const value = () => {
-    setPosts(getPosts());
-    console.log(value);
-    return true;
-  };
-
-  if (value === true) {
+  if (posts) {
     return (
       <>
         <Navbar />
