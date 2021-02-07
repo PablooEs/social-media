@@ -29,29 +29,19 @@ exports.user_posts = async (req, res, next) => {
   }
 };
 
-// //Login user
-// exports.user_login = async (req, res, next) => {
-//   try {
-//     const user = await User.findOne({
-//       username: req.body.params.username,
-//       password: req.body.params.password,
-//     });
-//     if (user) {
-//       res.redirect(`/user/${user._id}`);
-//     }
-//     res.json({ message: "The user wasnt able to authenticate!" });
-//   } catch (err) {
-//     console.log(err);
-//     return false;
-//   }
-// };
-
-// exports.user_logged = async (req, res, netx) => {
-//   try {
-//     const userData = await User.findById(req.params.id);
-//     res.json({ authenticated: true, user: userData });
-//   } catch (err) {
-//     console.log(err);
-//     return false;
-//   }
-// };
+//Login user
+exports.user_login = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      username: req.body.username,
+      password: req.body.password,
+    });
+    if (user) {
+      res.json({authenticated: true,user: user});
+    }
+    res.json({authenticated: false,user: {}});
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};

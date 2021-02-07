@@ -1,10 +1,10 @@
 const axios = require("axios");
 
-export function getLogin(data, callback) {
+export function getPosts() {
   axios
-    .post("http://localhost:4000/login", data)
+    .get("http://localhost:4000/posts")
     .then((response) => {
-      callback(response.data);
+      return response.data;
     })
     .catch((err) => {
       console.log("Error");

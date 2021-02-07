@@ -17,14 +17,17 @@ export default function Index() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  let session = useSelector((state) => state.login);
+  //let session = useSelector((state) => state.login);
   const history = useHistory();
 
   function validateSession(user, pass) {
     const userData = { username: user, password: pass };
     getLogin(userData, function (response) {
-      dispatch(loginSession(response));
-      history.push("/home");
+      if(response.authenticated === true){
+        dispatch(loginSession(response));
+        history.push("/home");
+      }
+      console.log("something else");
     });
   }
 
