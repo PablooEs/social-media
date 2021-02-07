@@ -1,7 +1,7 @@
-import React from 'react';
-import {BrowserRouter as Router, Switch,Route} from 'react-router-dom';
-import Index from './components/index';
-
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Index from "./components/index";
+import Home from "./components/home";
 
 function App() {
   return (
@@ -9,6 +9,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Index} />
+          <Route path="/home" exact component={Home} />
         </Switch>
       </Router>
     </React.Fragment>

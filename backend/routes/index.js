@@ -16,8 +16,10 @@ router.get("/user/:id", user_controller.user_detail);
 //GET POSTS from especific user
 router.get("/user/:id/posts", user_controller.user_posts);
 
-//Login Users
-router.post("/login", user_controller.user_login);
+// //Login Users
+// router.post("/login", user_controller.user_login);
+// //Get Authentication
+// router.get("/logged/:id", user_controller.user_logged);
 
 //GET POSTS
 router.get("/posts", post_controller.index);

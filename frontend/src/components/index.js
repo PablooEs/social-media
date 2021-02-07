@@ -9,19 +9,22 @@ import {
 } from "mdbreact";
 import { getLogin } from "../adapters/login_adapter";
 import "./style.css";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSession } from "../redux/actions/loginActions";
+import { useHistory } from "react-router-dom";
 
 export default function Index() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  let session = useSelector((state) => state.login);
+  const history = useHistory();
 
   function validateSession(user, pass) {
-    const userData = { params: { username: user, password: pass } };
+    const userData = { username: user, password: pass };
     getLogin(userData, function (response) {
-      if (response) {
-        console.log("Logeado");
-      } else {
-        console.log("Error pibe");
-      }
+      dispatch(loginSession(response));
+      history.push("/home");
     });
   }
 
