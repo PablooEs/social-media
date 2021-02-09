@@ -22,17 +22,22 @@ export default function Index() {
   document.cookie = useSelector((state) => state.login._id);
   const history = useHistory();
   const cookies = new Cookies();
+  let [error, setError] = useState("");
 
   function validateSession(user, pass) {
-    const userData = { username: user, password: pass };
-    getLogin(userData, function (response) {
-      if (response.authenticated === true) {
-        dispatch(loginSession(response));
-        history.push("/home");
-        cookies.set("user", response.user);
-      }
-      console.log("something else");
-    });
+    if (String(user).length === 0 || String(pass).length === 0) {
+      setError("Complete both fields!");
+    } else {
+      const userData = { username: user, password: pass };
+      getLogin(userData, function (response) {
+        if (response.authenticated === true) {
+          dispatch(loginSession(response));
+          history.push("/home");
+          cookies.set("user", response.user);
+        }
+        setError("The user or password are incorrent");
+      });
+    }
   }
 
   return (
@@ -55,23 +60,24 @@ export default function Index() {
             </MDBCol>
             <MDBCol md="6">
               <MDBInput
+                className="login"
                 label="Type your username"
                 icon="user"
                 iconClass="title"
-                validate
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
               <MDBInput
+                className="login"
                 label="Type your password"
                 icon="lock"
                 iconClass="title"
                 group
                 type="password"
-                validate
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {error && <div className="text-center error">{error}</div>}
               <MDBBtnGroup size="md" className="mb-4 mr-5">
                 <MDBBtn
                   color="primary"

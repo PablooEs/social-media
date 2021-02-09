@@ -19,6 +19,16 @@ html {
   color: #fff;
 }
 
+input.login[type="text"] {
+  color: #fff;
+}
+input.login[type="password"] {
+  color: #fff;
+}
+.error {
+  color: #cc0000;
+}
+
 @media (min-width: 500px) {
   .principal {
     margin-top: 200px;
