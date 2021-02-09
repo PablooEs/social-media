@@ -10,7 +10,7 @@ import {
 function navbar() {
   return (
     <div>
-      <MDBNavbar color="indigo" dark expand="md">
+      <MDBNavbar color="grey darken-4" dark expand="md">
         <MDBNavbarBrand>
           <strong className="white-text">Navbar</strong>
         </MDBNavbarBrand>

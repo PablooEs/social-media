@@ -4,13 +4,15 @@ import App from "./App";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import allReducers from "./redux/reducers";
 import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reduxThunk from "redux-thunk";
 
 const store = createStore(
   allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeWithDevTools(applyMiddleware(reduxThunk))
 );
 
 ReactDOM.render(

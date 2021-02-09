@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MDBContainer,
   MDBRow,
@@ -6,19 +6,40 @@ import {
   MDBCard,
   MDBCardTitle,
   MDBCardText,
+  MDBBtn,
+  MDBBox,
 } from "mdbreact";
 import Navbar from "./layout/navbar";
-const axios = require("axios");
+import { useDispatch, useSelector } from "react-redux";
+import { getPosts } from "../redux/actions/postsActions";
+import apiService from "../adapters/index";
+import Cookies from "universal-cookie";
 
 function Home() {
-  const [posts, setPosts] = useState([]);
+  let posts = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
+  const [content, setContent] = useState("");
+  const cookies = new Cookies();
+
   useEffect(() => {
-    async function getPosts() {
-      let response = await axios.get("http://localhost:4000/posts");
-      setPosts(response.data.posts);
+    async function fetchPosts() {
+      apiService.posts.getPosts().then((response) => {
+        dispatch(getPosts(response.data.posts));
+      });
     }
-    getPosts();
+    fetchPosts();
   }, []);
+
+  function createPost(data) {
+    const userId = cookies.get("user")._id;
+    const postData = { user: userId, content: data };
+    apiService.posts.createPost(postData);
+    apiService.posts.getPosts().then((response) => {
+      dispatch(getPosts(response.data.posts));
+    });
+    setContent("");
+  }
+
   if (posts) {
     return (
       <>
@@ -26,15 +47,42 @@ function Home() {
         <MDBContainer>
           <MDBRow>
             <MDBCol md="3"></MDBCol>
-            <MDBCol md="9">
+            <MDBCol md="8" sm="9">
+              <MDBCard
+                className="card-body"
+                style={{ width: "35em", marginTop: "1rem" }}
+              >
+                <label htmlFor="TextArea">Create a new post</label>
+                <textarea
+                  id="TextArea"
+                  rows="5"
+                  validate
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+                <MDBBtn
+                  color="indigo"
+                  rounded
+                  size="sm"
+                  onClick={() => {
+                    createPost(content);
+                  }}
+                >
+                  Post
+                </MDBBtn>
+              </MDBCard>
+
               {posts.map((post) => (
                 <MDBCard
                   className="card-body"
-                  style={{ width: "35rem", marginTop: "1rem" }}
+                  style={{ width: "35em", marginTop: "1rem" }}
                   key={post._id}
                 >
                   <MDBCardTitle>{post.user.username}</MDBCardTitle>
                   <MDBCardText>{post.content}</MDBCardText>
+                  <MDBBox tag="p">
+                    <small>Date: {post.date_of_post}</small>
+                  </MDBBox>
                 </MDBCard>
               ))}
             </MDBCol>
