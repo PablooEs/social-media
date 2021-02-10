@@ -7,6 +7,10 @@ import {
   MDBBtn,
   MDBBtnGroup,
   MDBTypography,
+  MDBModal,
+  MDBModalHeader,
+  MDBModalBody,
+  MDBModalFooter,
 } from "mdbreact";
 import { getLogin } from "../adapters/login_adapter";
 import "./style.css";
@@ -14,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginSession } from "../redux/actions/loginActions";
 import { useHistory } from "react-router-dom";
 import Cookies from "universal-cookie";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Index() {
   const [username, setUsername] = useState("");
@@ -24,6 +30,14 @@ export default function Index() {
   const cookies = new Cookies();
   let [error, setError] = useState("");
 
+  //Create
+  const [modal, setModal] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+
+  const toggle = () => {
+    setModal(!modal);
+  };
+
   function validateSession(user, pass) {
     if (String(user).length === 0 || String(pass).length === 0) {
       setError("Complete both fields!");
@@ -31,9 +45,10 @@ export default function Index() {
       const userData = { username: user, password: pass };
       getLogin(userData, function (response) {
         if (response.authenticated === true) {
-          dispatch(loginSession(response));
+          dispatch(loginSession(response.user));
           history.push("/home");
           cookies.set("user", response.user);
+          console.log(cookies.get("user"));
         }
         setError("The user or password are incorrent");
       });
@@ -89,8 +104,64 @@ export default function Index() {
                 </MDBBtn>
               </MDBBtnGroup>
               <MDBBtnGroup size="md" className="float-right">
-                <MDBBtn color="elegant">Register</MDBBtn>
+                <MDBBtn onClick={toggle} color="elegant">
+                  Register
+                </MDBBtn>
               </MDBBtnGroup>
+              <MDBModal isOpen={modal} toggle={toggle}>
+                <MDBModalHeader toggle={toggle}>Register</MDBModalHeader>
+                <MDBModalBody>
+                  <form>
+                    <div className="grey-text">
+                      <MDBInput
+                        label="Your name"
+                        icon="envelope"
+                        group
+                        validate
+                        error="wrong"
+                        success="right"
+                      />
+                      <MDBInput
+                        label="Your family name"
+                        icon="exclamation-triangle"
+                        group
+                        type="text"
+                        validate
+                        error="wrong"
+                        success="right"
+                      />
+                      <label>Date of birth</label>
+                      <br />
+                      <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                      />
+                      <MDBInput
+                        label="Your username"
+                        icon="user"
+                        group
+                        type="text"
+                        validate
+                        error="wrong"
+                        success="right"
+                      />
+                      <MDBInput
+                        label="Your password"
+                        icon="lock"
+                        group
+                        type="password"
+                        validate
+                      />
+                    </div>
+                  </form>
+                </MDBModalBody>
+                <MDBModalFooter>
+                  <MDBBtn color="secondary" onClick={toggle}>
+                    Close
+                  </MDBBtn>
+                  <MDBBtn color="primary">Register</MDBBtn>
+                </MDBModalFooter>
+              </MDBModal>
             </MDBCol>
           </MDBRow>
         </MDBContainer>

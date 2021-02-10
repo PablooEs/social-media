@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MDBCard, MDBBtn } from "mdbreact";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../../redux/actions/postsActions";
 import apiService from "../../adapters/index";
 import Cookies from "universal-cookie";
@@ -9,9 +9,10 @@ function CreatePost() {
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
   const cookies = new Cookies();
+  const user = useSelector((state) => state.login);
 
   function createPost(data) {
-    const userId = cookies.get("user")._id;
+    const userId = user._id;
     const postData = { user: userId, content: data };
     apiService.posts.createPost(postData);
     apiService.posts.getPosts().then((response) => {

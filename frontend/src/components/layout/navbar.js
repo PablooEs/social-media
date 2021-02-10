@@ -6,11 +6,15 @@ import {
   MDBNavItem,
   MDBNavLink,
 } from "mdbreact";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSession } from "../../redux/actions/loginActions";
 import Cookies from "universal-cookie";
 
 function Navbar() {
   const cookies = new Cookies();
-
+  const dispatch = useDispatch();
+  dispatch(loginSession(cookies.get("user")));
+  let user = useSelector((state) => state.login);
   return (
     <div>
       <MDBNavbar color="grey darken-4" dark expand="md">
@@ -26,9 +30,7 @@ function Navbar() {
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
-          <MDBNavItem className="white-text">
-            {cookies.get("user").username}
-          </MDBNavItem>
+          <MDBNavItem className="white-text">{user.username}</MDBNavItem>
         </MDBNavbarNav>
       </MDBNavbar>
     </div>

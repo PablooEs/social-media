@@ -5,8 +5,9 @@ export function getLogin(data, callback) {
     .post("http://localhost:4000/login", data)
     .then((response) => {
       callback(response.data);
+      console.log(response.data);
     })
     .catch((err) => {
-      console.log("Error");
+      console.log(err);
     });
 }
