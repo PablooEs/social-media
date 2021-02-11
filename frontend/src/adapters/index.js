@@ -19,4 +19,9 @@ export default {
       return apiServer.post("/posts/create", data);
     },
   },
+  user: {
+    createUser(user) {
+      return apiServer.post("/user/create", user);
+    },
+  },
 };

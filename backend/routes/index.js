@@ -16,7 +16,7 @@ router.get("/user/:id", user_controller.user_detail);
 //GET POSTS from especific user
 router.get("/user/:id/posts", user_controller.user_posts);
 //POST CREATE new user
-router.post("/user/crate", user_controller.user_create);
+router.post("/user/create", user_controller.user_create);
 
 // //Login Users
 router.post("/login", user_controller.user_login);

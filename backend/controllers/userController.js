@@ -40,7 +40,7 @@ exports.user_login = async (req, res, next) => {
     if (user) {
       res.status(200).json({ authenticated: true, user: user });
     } else if (!user) {
-      res.status(404).json({ authenticated: false, user: {} });
+      res.json({ authenticated: false, user: {} });
     }
   } catch (err) {
     res.status(500).json(err);
@@ -54,20 +54,24 @@ exports.user_create = [
     .isLength({ min: 3 })
     .escape()
     .withMessage("First name must be specified.")
-    .isAlphanumeric()
-    .withMessage("First name has non-alphanumeric characters."),
+    .isAlpha()
+    .withMessage("First name can't have numeric characters."),
   body("family_name")
     .trim()
     .isLength({ min: 3 })
     .escape()
     .withMessage("Family name must be specified.")
-    .isAlphanumeric()
-    .withMessage("Family name has non-alphanumeric characters."),
-  body("date_of_birth", "Invalid date of birth").isISO8601().toDate(),
+    .isAlpha()
+    .withMessage("Family name can't have numeric characters."),
+  body("date_of_birth", "Date must be previous to today's date")
+    .isISO8601()
+    .toDate()
+    .isBefore(new Date().toString()),
   body("username")
     .trim()
     .isLength({ min: 3 })
     .escape()
+    .isAlphanumeric()
     .withMessage("Username must be specified."),
   body("password")
     .trim()
@@ -78,7 +82,7 @@ exports.user_create = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      res.status(500).json({ Error: "Verificar campos" });
+      res.status(500).json(errors);
     } else {
       // Data from form is valid.
       const user = new User({
