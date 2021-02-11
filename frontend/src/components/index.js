@@ -23,7 +23,6 @@ export default function Index() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  document.cookie = useSelector((state) => state.login._id);
   const history = useHistory();
   const cookies = new Cookies();
   let [error, setError] = useState("");
@@ -43,7 +42,6 @@ export default function Index() {
           dispatch(loginSession(response.user));
           history.push("/home");
           cookies.set("user", response.user);
-          console.log(response.user, cookies.get("user"));
         }
         setError("The user or password are incorrent");
       });

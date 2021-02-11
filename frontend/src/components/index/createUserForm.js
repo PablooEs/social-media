@@ -1,73 +1,85 @@
-import React, { useState } from "react";
+import React from "react";
 import { MDBBtn, MDBModalFooter } from "mdbreact";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import apiService from "../../adapters/index";
+import { useForm, Controller } from "react-hook-form";
 
 function CreateUserForm() {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthDate, setBirthDate] = useState(new Date());
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit, errors, control, reset } = useForm();
+  const birthDate = new Date();
 
-  function createUser(name, lstname, date, username, pass) {
+  const onSubmit = (data) => {
     const user = {
-      first_name: name,
-      family_name: lstname,
-      date_of_birth: date,
-      username: username,
-      password: pass,
+      first_name: data.first_name,
+      family_name: data.family_name,
+      date_of_birth: data.date_of_birth,
+      username: data.username,
+      password: data.password,
     };
-    apiService.user.createUser(user);
-  }
+    //console.log(user);
+    apiService.user.createUser(user).then((response) => {
+      if (!response.data.errors) {
+        alert("User created succesfully!");
+        reset();
+      }
+    });
+  };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grey-text">
         <label>Your name</label>
         <input
           className="form-control"
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="first_name"
+          ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
         />
+        {errors.firstName && <p className="error">Name is required</p>}
         <label className="mt-1">Your last name</label>
         <input
           className="form-control"
           type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          name="family_name"
+          ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
         />
+        {errors.lastName && <p className="error">Last name is required</p>}
         <label className="mt-1">Date of birth</label>
         <br />
-        <DatePicker
-          className="form-control mb-1"
-          selected={birthDate}
-          onChange={(date) => setBirthDate(date)}
+        <Controller
+          name="date_of_birth"
+          control={control}
+          rules={{ required: true }}
+          defaultValue={birthDate}
+          render={(props) => (
+            <DatePicker
+              className="form-control mb-1"
+              selected={props.value}
+              onChange={(date) => props.onChange(date)}
+            />
+          )}
         />
+        {errors.BirthDate && <p className="error">BirthDate is required</p>}
         <br />
         <label className="mt-1">Your username</label>
         <input
           className="form-control"
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          name="username"
+          ref={register({ required: true })}
         />
+        {errors.username && <p className="error">Username is required</p>}
         <label className="mt-1">Your Password</label>
         <input
           className="form-control"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          ref={register({ required: true })}
         />
+        {errors.password && <p className="error">Password is required</p>}
         <MDBModalFooter>
-          <MDBBtn
-            color="indigo"
-            onClick={() => {
-              createUser(name, lastName, birthDate, username, password);
-            }}
-          >
+          <MDBBtn color="indigo" type="submit">
             Register
           </MDBBtn>
         </MDBModalFooter>

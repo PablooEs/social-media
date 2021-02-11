@@ -76,13 +76,13 @@ exports.user_create = [
   body("password")
     .trim()
     .isLength({ min: 6 })
-    .withMessage("Password must be specified."),
+    .withMessage("Password must have at least 6 characters."),
 
   (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      res.status(500).json(errors);
+      res.json(errors);
     } else {
       // Data from form is valid.
       const user = new User({
