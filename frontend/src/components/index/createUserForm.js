@@ -36,7 +36,7 @@ function CreateUserForm() {
           name="first_name"
           ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
         />
-        {errors.firstName && <p className="error">Name is required</p>}
+        {errors.first_name && <p className="error">Name is required</p>}
         <label className="mt-1">Your last name</label>
         <input
           className="form-control"
@@ -44,7 +44,7 @@ function CreateUserForm() {
           name="family_name"
           ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
         />
-        {errors.lastName && <p className="error">Last name is required</p>}
+        {errors.family_name && <p className="error">Last name is required</p>}
         <label className="mt-1">Date of birth</label>
         <br />
         <Controller

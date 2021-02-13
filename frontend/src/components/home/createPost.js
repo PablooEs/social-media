@@ -25,11 +25,9 @@ function CreatePost() {
         className="card-body"
         style={{ width: "35em", marginTop: "1rem" }}
       >
-        <label htmlFor="TextArea">Create a new post</label>
+        <label>Create a new post</label>
         <textarea
-          id="TextArea"
           rows="5"
-          validate
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />

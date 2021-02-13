@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -11,10 +11,19 @@ import { loginSession } from "../../redux/actions/loginActions";
 import Cookies from "universal-cookie";
 
 function Navbar() {
+  let user = useSelector((state) => state.login);
   const cookies = new Cookies();
   const dispatch = useDispatch();
-  dispatch(loginSession(cookies.get("user")));
-  let user = useSelector((state) => state.login);
+  useEffect(() => {
+    function getUser() {
+      if (!cookies.get("user")) {
+        cookies.set("user", user, { path: "/" });
+      }
+      dispatch(loginSession(cookies.get("user")));
+    }
+    getUser();
+  }, []);
+
   return (
     <div>
       <MDBNavbar color="grey darken-4" dark expand="md">

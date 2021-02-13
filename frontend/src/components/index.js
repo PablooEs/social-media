@@ -38,10 +38,11 @@ export default function Index() {
     } else {
       const userData = { username: user, password: pass };
       getLogin(userData, function (response) {
-        if (response.authenticated === true) {
+        if (response.authenticated) {
           dispatch(loginSession(response.user));
           history.push("/home");
-          cookies.set("user", response.user);
+          cookies.set("user", response.user, { path: "/" });
+          return false;
         }
         setError("The user or password are incorrent");
       });
