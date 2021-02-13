@@ -30,6 +30,10 @@ And finally on the frontend folder:
 
 npm install
 
+To run the project go to the root folder and:
+
+npm run dev
+
 Clarification:
 
 The project needs a mongoDB database for running correctly, contact the administrator for the enviroment variables.
