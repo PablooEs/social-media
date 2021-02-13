@@ -1,4 +1,6 @@
 var Post = require("../models/post");
+var Comment = require("../models/comment");
+var async = require("async");
 
 exports.index = function (req, res, next) {
   Post.find()
@@ -12,13 +14,30 @@ exports.index = function (req, res, next) {
     });
 };
 
-exports.post_detail = async (req, res, next) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    res.json(post);
-  } catch (err) {
-    res.json({ ERROR: err });
-  }
+exports.post_detail = function (req, res, next) {
+  async.parallel(
+    {
+      post: function (callback) {
+        Post.findById(req.params.id).exec(callback);
+      },
+      comments: function (callback) {
+        Comment.find({ post: req.params.id }).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      if (results.post == null) {
+        // No results.
+        var err = new Error("Post not found");
+        err.status = 404;
+        return next(err);
+      }
+      // Successful, so render.
+      res.json({ post: results.post, comments: results.comments });
+    }
+  );
 };
 
 //Create post

@@ -5,6 +5,7 @@ var router = express.Router();
 var home_controller = require("../controllers/homeController");
 var user_controller = require("../controllers/userController");
 var post_controller = require("../controllers/postController");
+var comment_controller = require("../controllers/commentController");
 
 /* GET home page. */
 router.get("/", home_controller.index);
@@ -29,5 +30,10 @@ router.get("/post/:id", post_controller.post_detail);
 router.post("/posts/create", post_controller.post_create_post);
 //POST  request for delete a post
 router.delete("/post/:id/delete", post_controller.post_delete);
+
+//GET Comments
+router.get("/comments", comment_controller.index);
+
+router.post("/comments/create", comment_controller.post_create_comment);
 
 module.exports = router;

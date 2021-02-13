@@ -12,7 +12,7 @@ git clone https://github.com/PablooEs/social-media.git
 
 ### Prerequisites
 
-A computer with a code editor of your preferences (I use Visual Studio Code) and nodeJs installed.
+A computer with nodeJs installed and code editor of your preferences (I use Visual Studio Code).
 
 ### Installing
 
