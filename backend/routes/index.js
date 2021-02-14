@@ -25,11 +25,11 @@ router.post("/login", user_controller.user_login);
 //GET POSTS
 router.get("/posts", post_controller.index);
 //GET request for one Post.
-router.get("/post/:id", post_controller.post_detail);
+router.get("/posts/:id", post_controller.post_detail);
 //POST request for creating a new post
 router.post("/posts/create", post_controller.post_create_post);
 //POST  request for delete a post
-router.delete("/post/:id/delete", post_controller.post_delete);
+router.delete("/posts/:id/delete", post_controller.post_delete);
 
 //GET Comments
 router.get("/comments", comment_controller.index);

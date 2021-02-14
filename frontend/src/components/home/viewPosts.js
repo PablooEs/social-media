@@ -3,6 +3,7 @@ import { MDBCard, MDBCardTitle, MDBCardText, MDBBox } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../../redux/actions/postsActions";
 import apiService from "../../adapters/index";
+import ViewComments from "./viewComments";
 
 function ViewPosts() {
   let posts = useSelector((state) => state.posts);
@@ -31,6 +32,7 @@ function ViewPosts() {
             <MDBBox tag="p">
               <small>Date: {post.date_of_post}</small>
             </MDBBox>
+            <ViewComments postId={post._id} />
           </MDBCard>
         ))}
       </>

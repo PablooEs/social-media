@@ -19,6 +19,11 @@ export default {
       return apiServer.post("/posts/create", data);
     },
   },
+  comments: {
+    getComments(postId) {
+      return apiServer.get(`/posts/${postId}`);
+    },
+  },
   user: {
     createUser(user) {
       return apiServer.post("/user/create", user);
