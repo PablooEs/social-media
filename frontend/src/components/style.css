@@ -29,6 +29,13 @@ input.login[type="password"] {
   color: #cc0000;
 }
 
+.commentSection {
+  border-top-style: solid;
+  padding: 1em;
+  border-top-color: #203a43;
+  background-color: #d8d6d2;
+}
+
 @media (min-width: 500px) {
   .principal {
     margin-top: 200px;

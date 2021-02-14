@@ -21,7 +21,9 @@ exports.post_detail = function (req, res, next) {
         Post.findById(req.params.id).exec(callback);
       },
       comments: function (callback) {
-        Comment.find({ post: req.params.id }).exec(callback);
+        Comment.find({ post: req.params.id })
+          .populate("user", "username")
+          .exec(callback);
       },
     },
     function (err, results) {
