@@ -23,6 +23,9 @@ export default {
     getComments(postId) {
       return apiServer.get(`/posts/${postId}`);
     },
+    createComment(data) {
+      return apiServer.post("/comments/create", data);
+    },
   },
   user: {
     createUser(user) {
