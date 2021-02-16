@@ -24,7 +24,7 @@ exports.user_posts = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     const userPosts = await Post.find({ user: { _id: user._id } });
-    res.json({ user: user.username, posts: userPosts });
+    res.json({ posts: userPosts });
   } catch (err) {
     res.json({ ERROR: err });
   }

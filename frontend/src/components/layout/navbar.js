@@ -9,6 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { loginSession } from "../../redux/actions/loginActions";
 import Cookies from "universal-cookie";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   let user = useSelector((state) => state.login);
@@ -39,7 +40,16 @@ function Navbar() {
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
-          <MDBNavItem className="white-text">{user.username}</MDBNavItem>
+          <MDBNavItem className="white-text">
+            <Link
+              to={{
+                pathname: "/profile",
+                userData: { user: user },
+              }}
+            >
+              {user.username}
+            </Link>
+          </MDBNavItem>
         </MDBNavbarNav>
       </MDBNavbar>
     </div>

@@ -13,9 +13,12 @@ function CreatePost() {
     const userId = user._id;
     const postData = { user: userId, content: data };
     apiService.posts.createPost(postData);
-    apiService.posts.getPosts().then((response) => {
-      dispatch(getPosts(response.data.posts));
-    });
+    setTimeout(() => {
+      apiService.posts.getPosts().then((response) => {
+        dispatch(getPosts(response.data.posts));
+      });
+    }, 1000);
+
     setContent("");
   }
 

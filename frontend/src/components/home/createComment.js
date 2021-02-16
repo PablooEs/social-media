@@ -13,7 +13,6 @@ function CreateComment(props) {
     const commentData = { user: userId, post: postId, content: data };
     apiService.comments.createComment(commentData);
     setContent("");
-    alert("Comment added succesfully!");
     setTimeout(() => {
       props.onChange();
     }, 1000);

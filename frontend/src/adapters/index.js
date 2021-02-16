@@ -31,5 +31,8 @@ export default {
     createUser(user) {
       return apiServer.post("/user/create", user);
     },
+    getUserPosts(userId) {
+      return apiServer.get(`/user/${userId}/posts`);
+    },
   },
 };
