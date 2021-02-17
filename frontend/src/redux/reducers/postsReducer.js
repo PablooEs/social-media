@@ -6,6 +6,10 @@ export const postsReducer = (state = defaultState, { type, payload }) => {
       state = payload;
       return state;
     }
+    case "GET_USER_POSTS": {
+      state = payload;
+      return state;
+    }
     default:
       return state;
   }

@@ -1,22 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { MDBCard, MDBCardTitle, MDBCardText, MDBBox } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts } from "../../redux/actions/postsActions";
+import { getUserPosts } from "../../redux/actions/postsActions";
 import apiService from "../../adapters/index";
 
-function UserPosts(props) {
-  console.log(props);
-  //const { userId } = props.location.state;
-  let posts = useSelector((state) => state.posts);
+function UserPosts() {
+  const posts = useSelector((state) => state.posts);
+  const user = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
-  //   useEffect(() => {
-  //     apiService.user.getUserPosts(userId).then((response) => {
-  //       dispatch(getPosts(response.data.posts));
-  //     });
-  //   }, []);
+  setTimeout(function fetchPosts() {
+    if (user._id) {
+      apiService.user.getUserPosts(user._id).then((response) => {
+        dispatch(getUserPosts(response.data.posts));
+      });
+    }
+  }, 1000);
 
-  if (posts.length > 1) {
+  // useEffect(() => {
+  //   function fetchPosts() {
+  //     if (user._id) {
+  //       apiService.user.getUserPosts(user._id).then((response) => {
+  //         dispatch(getUserPosts(response.data.posts));
+  //       });
+  //     }
+  //   }
+  //   fetchPosts();
+  // }, []);
+
+  if (posts) {
     return (
       <>
         {posts.map((post) => (

@@ -4,3 +4,10 @@ export function getPosts(data) {
     payload: data,
   };
 }
+
+export function getUserPosts(data) {
+  return {
+    type: "GET_USER_POSTS",
+    payload: data,
+  };
+}
