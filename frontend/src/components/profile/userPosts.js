@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { MDBCard, MDBCardTitle, MDBCardText, MDBBox } from "mdbreact";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserPosts } from "../../redux/actions/postsActions";
+import {
+  MDBCard,
+  MDBCardTitle,
+  MDBCardText,
+  MDBBox,
+  MDBTypography,
+  MDBIcon,
+} from "mdbreact";
+import { useSelector } from "react-redux";
 import apiService from "../../adapters/index";
 import Cookies from "universal-cookie";
+import "./btnDelete.css";
 
 function UserPosts() {
   const user = useSelector((state) => state.login);
@@ -19,6 +26,10 @@ function UserPosts() {
     fetchPosts();
   }, []);
 
+  function deletePost(data) {
+    return;
+  }
+
   if (posts && posts.length > 0) {
     return (
       <>
@@ -28,10 +39,20 @@ function UserPosts() {
             style={{ width: "35em", marginTop: "1rem" }}
             key={post._id}
           >
-            <MDBCardTitle>{post.user.username}</MDBCardTitle>
+            <MDBCardTitle>
+              {post.user.username}{" "}
+              <button
+                className="btn-delete"
+                onClick={() => {
+                  deletePost(post._id);
+                }}
+              >
+                <MDBIcon icon="trash" />
+              </button>
+            </MDBCardTitle>
             <MDBCardText>{post.content}</MDBCardText>
             <MDBBox tag="p">
-              <small>Date: {post.date_of_post}</small>
+              <small>Date: {post.date_of_post} </small>
             </MDBBox>
           </MDBCard>
         ))}
@@ -40,8 +61,9 @@ function UserPosts() {
   }
   return (
     <>
-      {" "}
-      <h1>You haven't post yet...</h1>
+      <MDBTypography tag="h1" variant="h1" colorText="white-text">
+        You haven't post yet...
+      </MDBTypography>
       <h2>ID:{user._id}</h2>
       <h2>UserName: {user.username}</h2>
     </>
