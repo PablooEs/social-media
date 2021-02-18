@@ -3,32 +3,23 @@ import { MDBCard, MDBCardTitle, MDBCardText, MDBBox } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserPosts } from "../../redux/actions/postsActions";
 import apiService from "../../adapters/index";
+import Cookies from "universal-cookie";
 
 function UserPosts() {
-  const posts = useSelector((state) => state.posts);
   const user = useSelector((state) => state.login);
-  const dispatch = useDispatch();
+  const [posts, setPosts] = useState([]);
+  const cookies = new Cookies();
 
-  setTimeout(function fetchPosts() {
-    if (user._id) {
-      apiService.user.getUserPosts(user._id).then((response) => {
-        dispatch(getUserPosts(response.data.posts));
+  useEffect(() => {
+    async function fetchPosts() {
+      apiService.user.getUserPosts(cookies.get("user")._id).then((response) => {
+        setPosts(response.data.posts);
       });
     }
-  }, 1000);
+    fetchPosts();
+  }, []);
 
-  // useEffect(() => {
-  //   function fetchPosts() {
-  //     if (user._id) {
-  //       apiService.user.getUserPosts(user._id).then((response) => {
-  //         dispatch(getUserPosts(response.data.posts));
-  //       });
-  //     }
-  //   }
-  //   fetchPosts();
-  // }, []);
-
-  if (posts) {
+  if (posts && posts.length > 0) {
     return (
       <>
         {posts.map((post) => (
@@ -47,7 +38,14 @@ function UserPosts() {
       </>
     );
   }
-  return <h1>You haven't post yet...</h1>;
+  return (
+    <>
+      {" "}
+      <h1>You haven't post yet...</h1>
+      <h2>ID:{user._id}</h2>
+      <h2>UserName: {user.username}</h2>
+    </>
+  );
 }
 
 export default UserPosts;
