@@ -33,15 +33,16 @@ function Navbar() {
         </MDBNavbarBrand>
         <MDBNavbarNav left>
           <MDBNavItem>
-            <MDBNavLink to="#">Home</MDBNavLink>
+            <MDBNavLink to="/home">Home</MDBNavLink>
           </MDBNavItem>
           <MDBNavItem>
             <MDBNavLink to="#">Features</MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
-          <MDBNavItem className="white-text">
+          <MDBNavItem>
             <Link
+              className="white-text"
               to={{
                 pathname: "/profile",
                 userData: { user: user },

@@ -14,20 +14,6 @@ exports.index = function (req, res, next) {
     });
 };
 
-// exports.post_comments = async (req, res) => {
-//   try {
-//     const comment = Comment.findById(req.params.id)
-//       .populate("post", "_id")
-//       .populate("user", "username");
-//     if (!comment) {
-//       res.status(200).json({});
-//     }
-//     res.status(200).json(comment);
-//   } catch (err) {
-//     res.status(404).json(err);
-//   }
-// };
-
 //Create comment
 exports.post_create_comment = async (req, res) => {
   const comment = new Comment({

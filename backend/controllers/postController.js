@@ -56,12 +56,31 @@ exports.post_create_post = async (req, res) => {
   }
 };
 
-//Delete post
+//Delete post and related comments
 exports.post_delete = async (req, res) => {
-  try {
-    const removedPost = await Post.findByIdAndRemove({ _id: req.params.id });
-    res.json({ Removed_post: removedPost });
-  } catch (err) {
-    res.json({ ERROR: err });
-  }
+  const postId = req.params.id;
+
+  async.parallel(
+    {
+      post: function (callback) {
+        Post.findByIdAndRemove(req.params.id).exec(callback);
+      },
+      comments: function (callback) {
+        Comment.deleteMany({ post: req.params.id }).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      if (results.post == null) {
+        // No results.
+        var err = new Error("Post not found");
+        err.status = 404;
+        return next(err);
+      }
+      // Successful, so render.
+      res.json({ post: results.post, comments: results.comments });
+    }
+  );
 };
