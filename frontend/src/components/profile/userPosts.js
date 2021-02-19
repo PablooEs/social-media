@@ -26,8 +26,13 @@ function UserPosts() {
     fetchPosts();
   }, []);
 
-  function deletePost(data) {
-    return;
+  function deletePost(postId) {
+    apiService.posts.deletePost(postId);
+    setTimeout(() => {
+      apiService.user.getUserPosts(cookies.get("user")._id).then((response) => {
+        setPosts(response.data.posts);
+      });
+    }, 1000);
   }
 
   if (posts && posts.length > 0) {

@@ -18,6 +18,9 @@ export default {
     createPost(data) {
       return apiServer.post("/posts/create", data);
     },
+    deletePost(postId) {
+      return apiServer.delete(`/posts/${postId}/delete`);
+    },
   },
   comments: {
     getComments(postId) {

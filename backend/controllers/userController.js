@@ -23,10 +23,9 @@ exports.user_detail = async (req, res, next) => {
 exports.user_posts = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    const userPosts = await Post.find({ user: { _id: user._id } }).populate(
-      "user",
-      "username"
-    );
+    const userPosts = await Post.find({ user: { _id: user._id } })
+      .sort({ date_of_post: -1 })
+      .populate("user", "username");
     res.json({ posts: userPosts });
   } catch (err) {
     res.json({ ERROR: err });
